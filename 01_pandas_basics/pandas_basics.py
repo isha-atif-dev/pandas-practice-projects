@@ -1,66 +1,84 @@
 import pandas as pd
 
-df = pd.read_csv("basics-of-pandas/CsvData.csv")
-# print(df.to_string(index=False))
+"""
+01_pandas_basics
+This script demonstrates fundamental pandas operations including:
+- loading tabular data from CSV
+- basic data exploration and inspection
+- summary statistics
+- column selection and row filtering
+- manual DataFrame creation
+- saving processed outputs to files
+
+These steps reflect the initial phase of a real-world data workflow.
+"""
+
+# -------------------------------------------------------------------
+# 1. Load dataset from CSV
+# This simulates reading raw data exported from a database or system
+# -------------------------------------------------------------------
+df = pd.read_csv('01_pandas_basics/CsvData.csv')
 
 
-# after manipulation hwo to save data in pandas
+# -------------------------------------------------------------------
+# 2. Explore the dataset structure and content
+# Used to understand data shape, columns, data types, and missing values
+# -------------------------------------------------------------------
+print(df.head())      # Preview first few rows
+print(df.tail())      # Preview last few rows
+print(df.shape)       # Returns (rows, columns)
+print(df.columns)     # Column names
+print(df.info())      # Data types, non-null counts, memory usage
 
-# how to create a dataframe using dict
 
-# A DataFrame is a 2-dimensional data structure used to store and work with tabular data (rows + columns).
+# -------------------------------------------------------------------
+# 3. Summary statistics
+# Provides quick insight into numeric distributions, averages, and ranges
+# Useful for detecting anomalies or unexpected values
+# -------------------------------------------------------------------
+summary_of_data = df.describe()
+print(summary_of_data)
 
 
+# -------------------------------------------------------------------
+# 4. Column selection
+# Extracting only relevant features for analysis or reporting
+# -------------------------------------------------------------------
+subset = df[['name', 'marks']]
+print(subset)
+
+
+# -------------------------------------------------------------------
+# 5. Row filtering using multiple conditions
+# Represents real-world rule-based filtering (e.g. eligibility checks)
+# -------------------------------------------------------------------
+student_marks = df[
+    (df['marks'] > 50) &
+    (df['marks'] < 70) &
+    (df['age'] < 24)
+]
+
+print(student_marks)
+
+
+# -------------------------------------------------------------------
+# 6. Creating a DataFrame manually
+# Common when generating reports, test data, or derived results
+# -------------------------------------------------------------------
 data = {
-    "Name": ["Ali", "ahmed", "sufyan"],
-    "Age": [23, 30, 21],
-    "location": ["jhelum", "lahore", "isb"],
+    'employee_id': [1, 2, 3, 4, 5],
+    'employee_name': ['Asad', 'Sara', 'Bilal', 'Soniya', 'Ali'],
+    'employee_salary': [60000, 120000, 56000, 30000, 200000]
 }
 
-# df = pd.DataFrame(data)
-# print(df)
-
-# df.to_excel('data.xlsx',index=False)
-df.to_json("data.json", index=False)
+df2 = pd.DataFrame(data)
+print(df2)
 
 
-# how to read rows of dataframe like to understand about the data
-
-# head(n)
-# tail(n)
-
-
-# how many colns ,rows
-# what size
-# what type of data store in each colm
-# missing values
-# mempory usage
-
-# info()   give concise summary of your dataframe to ans above questions
-
-
-df2 = pd.read_csv("basics-of-pandas/ddos.csv")
-# print(df2.info())
-
-
-# describe method
-
-# print(df2.describe())
-
-
-# now i want to know about how many no of colm and rows i have
-# shape
-
-# print(df2.shape)
-# print(df2.columns)
-
-
-# now selecting specific or 2 colum
-subset = df2[[" Destination Port", " Flow Duration"]]
-# print(subset)
-
-# filter rows
-# combine multiple conditions
-
-age = df[(df["marks"] > 80) & (df["age"] < 23)]
-print(age)
+# -------------------------------------------------------------------
+# 7. Saving outputs
+# Persisting processed data for downstream tasks or sharing
+# -------------------------------------------------------------------
+df2.to_csv('outputs/new_dataframe.csv', index=False)
+df2.to_json('outputs/new_dataframe.json', index=False)
+df2.to_excel('outputs/new_dataframe.xlsx', index=False)
