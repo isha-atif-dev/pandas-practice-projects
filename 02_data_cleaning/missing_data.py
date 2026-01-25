@@ -1,39 +1,62 @@
-# now detecting missing data
-
-# first identify where data is missing
-# isnull()  return True False
-
-# true means yes the value is missing
-# false means no the value is not missing
+# ------------------------------------------------------------
+# missing_data.py
+# This script focuses on detecting and handling missing values
+# in a dataset using pandas.
+# ------------------------------------------------------------
 
 import pandas as pd
 
+# ------------------------------------------------------------
+# Load the raw dataset
+# This dataset contains missing values that need to be handled
+# ------------------------------------------------------------
 df = pd.read_csv("02_data_cleaning/raw_employees.csv")
 
+
+# ------------------------------------------------------------
+# Detect missing values
+# isnull() returns:
+# True  -> value is missing
+# False -> value is present
+# ------------------------------------------------------------
 print(df.isnull())
 
-# to check how mnay value missing ----- return the count of missing values
+
+# ------------------------------------------------------------
+# Count how many missing values exist in each column
+# This helps decide which columns need cleaning
+# ------------------------------------------------------------
 print(df.isnull().sum())
 
-# handling missing values
 
-# we can remove whole colum or rows who has missing values ---- only in the case we dont need them
+# ------------------------------------------------------------
+# Handling missing values
+# ------------------------------------------------------------
 
-# df.dropna(axis = 1, inplace = True)
+# Option 1: Drop columns or rows with missing values
+# Use this only if the missing data is not important
+# axis = 0 -> drop rows
+# axis = 1 -> drop columns
 
-# # axis = 0 means row and axis = 1 means colm
+# df.dropna(axis=1, inplace=True)
 # print(df)
 
-# if we need the rows or colnm of missing values we add some values in place of them
 
-# df.fillna(0,inplace=True)  # add the default value zero
+# Option 2: Replace missing values with a fixed value
+# This is a simple approach but may affect data quality
+
+# df.fillna(0, inplace=True)
 # print(df)
 
-# but if we want to add some calculated value in place of missing value (will use mean() of that colmn)
 
-# 1st pic up the colm
-df['employee_salary'].fillna(df['employee_salary'].mean(), inplace=True)
+# Option 3: Replace missing values with a calculated value
+# Here we use the mean salary to fill missing salary values
+# This keeps the data more realistic than using 0
+
+df["employee_salary"].fillna(df["employee_salary"].mean(), inplace=True)
+
+
+# ------------------------------------------------------------
+# Display the cleaned dataset
+# ------------------------------------------------------------
 print(df)
-
-
-
