@@ -43,11 +43,6 @@ print("Rows after removing duplicates:", df.shape[0])
 # --------------------------------------------------
 # 4. Check for weird / invalid values
 # --------------------------------------------------
-# Weird values are values that do not make sense in real-world networking,
-# such as:
-# - Negative flow duration
-# - Negative packet or byte counts
-# - Impossible timing values
 
 # Example: check if Flow Duration contains negative values
 print((df[" Flow Duration"] < 0).sum())
@@ -61,8 +56,8 @@ print((df[" Flow Duration"] < 0).sum())
 numeric_cols = df.select_dtypes(include="number")
 
 # Count how many negative values exist per numeric column
-# negative_counts = (numeric_cols < 0).sum()
-# print(negative_counts[negative_counts > 0])
+negative_counts = (numeric_cols < 0).sum()
+print(negative_counts[negative_counts > 0])
 
 # Replace all negative numeric values with 0
 # This ensures no invalid negative metrics remain in the dataset
